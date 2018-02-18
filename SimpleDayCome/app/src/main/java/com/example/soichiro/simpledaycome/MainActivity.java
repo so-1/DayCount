@@ -8,8 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
+    private Realm mRealm;
+    private ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,19 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        mRealm = Realm.getDefaultInstance();
+
+        mListView = (ListView)findViewById(R.id.listView);
+        RealmResults<Schedule>schedules
+                = mRealm.where(Schedule.class).findAll();
+        ScheduleAdapter adapter = new ScheduleAdapter(schedules);
+        mListView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mRealm.close();
     }
 
     @Override
