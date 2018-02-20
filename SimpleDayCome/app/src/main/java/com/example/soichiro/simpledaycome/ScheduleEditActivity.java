@@ -30,10 +30,10 @@ public class ScheduleEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_edit);
         mRealm = Realm.getDefaultInstance();
-        mDateEdit = (EditText)findViewById(R.id.dateEdit);
-        mTitleEdit = (EditText)findViewById(R.id.titleEdit);
-        mDetailEdit = (EditText)findViewById(R.id.detailEdit);
-        mDelete = (Button)findViewById(R.id.delete);
+        mDateEdit = (EditText) findViewById(R.id.dateEdit);
+        mTitleEdit = (EditText) findViewById(R.id.titleEdit);
+        mDetailEdit = (EditText) findViewById(R.id.detailEdit);
+        mDelete = (Button) findViewById(R.id.delete);
 
         long scheduleId = getIntent().getLongExtra("schedule_id", -1);
         if (scheduleId != -1) {
@@ -46,20 +46,21 @@ public class ScheduleEditActivity extends AppCompatActivity {
             mTitleEdit.setText(schedule.getTitle());
             mDetailEdit.setText(schedule.getDetail());
             mDelete.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mDelete.setVisibility(View.INVISIBLE);
         }
 
     }
-    public  void onSaveTapped(View view){
+
+    public void onSaveTapped(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         Date dateParse = new Date();
-        try{
+        try {
             dateParse = sdf.parse(mDateEdit.getText().toString());
-        }catch (ParseException e){
+        } catch (ParseException e) {
             e.printStackTrace();
         }
-            final Date date = dateParse;
+        final Date date = dateParse;
 
         long scheduleId = getIntent().getLongExtra("schedule_id", -1);
         if (scheduleId != -1) {
@@ -85,25 +86,40 @@ public class ScheduleEditActivity extends AppCompatActivity {
                     .setActionTextColor(Color.YELLOW)
                     .show();
 
-        }else{
+        } else {
 
 
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Number maxId = realm.where(Schedule.class).max("id");
-                long nextId = 0;
-                if(maxId !=null)nextId = maxId.longValue() +1;
-                Schedule schedule
-                        = realm.createObject(Schedule.class, new Long (nextId));
-                schedule.setDate(date);
-                schedule.setTitle(mTitleEdit.getText().toString());
-                schedule.setDetail(mDetailEdit.getText().toString());
-            }
-        });
-        Toast.makeText(this,"追加しました",Toast.LENGTH_SHORT).show();
-        finish();
+            mRealm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    Number maxId = realm.where(Schedule.class).max("id");
+                    long nextId = 0;
+                    if (maxId != null) nextId = maxId.longValue() + 1;
+                    Schedule schedule
+                            = realm.createObject(Schedule.class, new Long(nextId));
+                    schedule.setDate(date);
+                    schedule.setTitle(mTitleEdit.getText().toString());
+                    schedule.setDetail(mDetailEdit.getText().toString());
+                }
+            });
+            Toast.makeText(this, "追加しました", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
     }
 
-}
+    public void onDeleteTapped(View view) {
+        final long scheduleId = getIntent().getLongExtra("schedule_id", -1);
+        if (scheduleId != -1) {
+
+            mRealm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    Schedule schedule = realm.where(Schedule.class).equalTo("id",scheduleId).findFirst();
+                    schedule.deleteFromRealm();
+                }
+            });
+
+        }
+    }
 }
