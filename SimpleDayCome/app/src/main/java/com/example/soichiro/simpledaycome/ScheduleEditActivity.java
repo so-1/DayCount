@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import io.realm.Realm;
@@ -23,6 +25,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
     EditText mTitleEdit;
     EditText mDetailEdit;
     Button mDelete;
+    Button mChoice;
 
 
     @Override
@@ -34,6 +37,45 @@ public class ScheduleEditActivity extends AppCompatActivity {
         mTitleEdit = (EditText) findViewById(R.id.titleEdit);
         mDetailEdit = (EditText) findViewById(R.id.detailEdit);
         mDelete = (Button) findViewById(R.id.delete);
+
+
+        mChoice = findViewById(R.id.calChoice);
+        mChoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //カレンダー表示
+                DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+                datePicker.show(getSupportFragmentManager(), "datePicker");
+
+
+                /*なんか意味がありそうでわからない。
+                String date = mDateEdit.getText().toString();
+
+                int year = 0;
+                int month = 0;
+                int dayOfMonth = 0;
+                if (TextUtils.isEmpty(date)) {
+                    Calendar calendar = Calendar.getInstance();
+                    year = calendar.get(Calendar.YEAR);
+                    month = calendar.get(Calendar.MONTH);
+                    dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                } else {
+                    year = Integer.valueOf(date.substring(0, 4));
+                    month = Integer.valueOf(date.substring(5, 7));
+                    month = month - 1;
+                    dayOfMonth = Integer.valueOf(date.substring(8, 10));
+                }
+                */
+                
+
+            }
+        });
+
+
+
+
+
 
         long scheduleId = getIntent().getLongExtra("schedule_id", -1);
         if (scheduleId != -1) {
@@ -117,9 +159,17 @@ public class ScheduleEditActivity extends AppCompatActivity {
                 public void execute(Realm realm) {
                     Schedule schedule = realm.where(Schedule.class).equalTo("id",scheduleId).findFirst();
                     schedule.deleteFromRealm();
+                    finish();
                 }
             });
 
         }
     }
+    /*
+    public void onChoice(View view){
+
+        DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+        datePicker.show(getSupportFragmentManager(), "datePicker");
+    }
+    */
 }
