@@ -7,4 +7,7 @@
     <string name="text_save">保存</string>
     <string name="text_delete">削除</string>
     <string name="dayE">20180222</string>
+    <string name="Title_default">入力してください</string>
+    <string name="text_count">残り</string>
+    <string name="text_day">日</string>
 </resources>

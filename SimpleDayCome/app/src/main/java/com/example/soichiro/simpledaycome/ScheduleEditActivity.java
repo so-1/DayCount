@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -48,18 +49,23 @@ public class ScheduleEditActivity extends AppCompatActivity {
                 DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
                 datePicker.show(getSupportFragmentManager(), "datePicker");
 
-
-                /*なんか意味がありそうでわからない。
                 String date = mDateEdit.getText().toString();
+  // なんか意味がありそうでわからない。
+
+
+
 
                 int year = 0;
                 int month = 0;
                 int dayOfMonth = 0;
-                if (TextUtils.isEmpty(date)) {
+               // if (TextUtils.isEmpty(date)) {
                     Calendar calendar = Calendar.getInstance();
                     year = calendar.get(Calendar.YEAR);
                     month = calendar.get(Calendar.MONTH);
                     dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                    /*
+
+
                 } else {
                     year = Integer.valueOf(date.substring(0, 4));
                     month = Integer.valueOf(date.substring(5, 7));
@@ -67,14 +73,10 @@ public class ScheduleEditActivity extends AppCompatActivity {
                     dayOfMonth = Integer.valueOf(date.substring(8, 10));
                 }
                 */
-                
+
 
             }
         });
-
-
-
-
 
 
         long scheduleId = getIntent().getLongExtra("schedule_id", -1);
@@ -172,4 +174,19 @@ public class ScheduleEditActivity extends AppCompatActivity {
         datePicker.show(getSupportFragmentManager(), "datePicker");
     }
     */
+
+
+
+
+    public void setTextView(String value){
+        TextView textView = (TextView) findViewById(R.id.dateEdit);
+        textView.setText(value);
+    }
+
+    public void setCountView(int value){
+        TextView textView = (TextView) findViewById(R.id.countingDay);
+        String valueToString = String.valueOf(value);
+        textView.setText(valueToString);
+    }
+
 }
