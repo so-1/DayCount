@@ -20,6 +20,7 @@ public class ScheduleAdapter extends RealmBaseAdapter<Schedule> {
     private static class ViewHolder{
         TextView date;
         TextView title;
+        TextView dayCount;
     }
 
     public ScheduleAdapter(@Nullable OrderedRealmCollection<Schedule> data) {
@@ -32,10 +33,11 @@ public class ScheduleAdapter extends RealmBaseAdapter<Schedule> {
 
         if (convertView == null){
             convertView = LayoutInflater.from(parent.getContext()).inflate(
-                    android.R.layout.simple_list_item_2, parent, false);
+                    R.layout.list_item_original, parent, false);
         viewHolder = new ViewHolder();
-        viewHolder.date = (TextView) convertView.findViewById(android.R.id.text1);
-        viewHolder.title = (TextView) convertView.findViewById(android.R.id.text2);
+        viewHolder.date = (TextView) convertView.findViewById(R.id.text1);
+        viewHolder.title = (TextView) convertView.findViewById(R.id.text2);
+        viewHolder.dayCount = (TextView) convertView.findViewById(R.id.text3);
         convertView.setTag(viewHolder);
     }else{
             viewHolder = (ViewHolder)convertView.getTag();
@@ -45,6 +47,7 @@ public class ScheduleAdapter extends RealmBaseAdapter<Schedule> {
         String formatDate = sdf.format(schedule.getDate());
         viewHolder.date.setText(formatDate);
         viewHolder.title.setText(schedule.getTitle());
+        viewHolder.dayCount.setText(schedule.getDayCount());
         return convertView;
     }
 }

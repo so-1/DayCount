@@ -15,6 +15,7 @@ public class Schedule extends RealmObject {
     private Date date;
     private String title;
     private String detail;
+    private String dayCount;
 
     public long getId() {
         return id;
@@ -47,4 +48,17 @@ public class Schedule extends RealmObject {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+
+
+
+
+    public String getDayCount() {
+        return dayCount;
+    }
+
+    public void setDayCount(String dayCount) {this.dayCount = dayCount;
+    }
+
+
+
 }

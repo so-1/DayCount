@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,6 +27,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
     EditText mDateEdit;
     EditText mTitleEdit;
     EditText mDetailEdit;
+    TextView mDayCount;
     Button mDelete;
     Button mChoice;
 
@@ -37,6 +40,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
         mDateEdit = (EditText) findViewById(R.id.dateEdit);
         mTitleEdit = (EditText) findViewById(R.id.titleEdit);
         mDetailEdit = (EditText) findViewById(R.id.detailEdit);
+        mDayCount = (TextView) findViewById(R.id.countingDay);
         mDelete = (Button) findViewById(R.id.delete);
 
 
@@ -89,6 +93,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
             mDateEdit.setText(date);
             mTitleEdit.setText(schedule.getTitle());
             mDetailEdit.setText(schedule.getDetail());
+            mDayCount.setText(schedule.getDayCount());
             mDelete.setVisibility(View.VISIBLE);
         } else {
             mDelete.setVisibility(View.INVISIBLE);
@@ -115,8 +120,10 @@ public class ScheduleEditActivity extends AppCompatActivity {
                 public void execute(Realm realm) {
                     Schedule schedule = results.first();
                     schedule.setDate(date);
+                    schedule.setDayCount(mDayCount.getText().toString());
                     schedule.setTitle(mTitleEdit.getText().toString());
                     schedule.setDetail(mDetailEdit.getText().toString());
+
                 }
             });
             Snackbar.make(findViewById(android.R.id.content),
@@ -144,6 +151,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
                     schedule.setDate(date);
                     schedule.setTitle(mTitleEdit.getText().toString());
                     schedule.setDetail(mDetailEdit.getText().toString());
+                    schedule.setDayCount(mDayCount.getText().toString());
                 }
             });
             Toast.makeText(this, "追加しました", Toast.LENGTH_SHORT).show();
