@@ -31,12 +31,6 @@ public class DatePickerDialogFragment extends DialogFragment  {
                         ScheduleEditActivity act = (ScheduleEditActivity) getActivity();
                         act.setTextView(dateStr);
 
-
-
-
-
-
-
                         Calendar calendar1 = Calendar.getInstance();
                         calendar1.set(year,month,dayOfMonth);
                         // 1970/1/1 から設定した calendar1 のミリ秒
@@ -58,8 +52,6 @@ public class DatePickerDialogFragment extends DialogFragment  {
                         diff = diff / 24;
 
                         act.setCountView((int)diff);
-
-
 
                     }
 

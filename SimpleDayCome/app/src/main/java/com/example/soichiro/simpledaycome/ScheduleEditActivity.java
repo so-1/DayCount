@@ -36,6 +36,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_edit);
+
         mRealm = Realm.getDefaultInstance();
         mDateEdit = (EditText) findViewById(R.id.dateEdit);
         mTitleEdit = (EditText) findViewById(R.id.titleEdit);
@@ -43,42 +44,21 @@ public class ScheduleEditActivity extends AppCompatActivity {
         mDayCount = (TextView) findViewById(R.id.countingDay);
         mDelete = (Button) findViewById(R.id.delete);
 
-
         mChoice = findViewById(R.id.calChoice);
         mChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //カレンダー表示
                 DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
                 datePicker.show(getSupportFragmentManager(), "datePicker");
-
                 String date = mDateEdit.getText().toString();
-  // なんか意味がありそうでわからない。
-
-
-
-
                 int year = 0;
                 int month = 0;
                 int dayOfMonth = 0;
-               // if (TextUtils.isEmpty(date)) {
                     Calendar calendar = Calendar.getInstance();
                     year = calendar.get(Calendar.YEAR);
                     month = calendar.get(Calendar.MONTH);
                     dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                    /*
-
-
-                } else {
-                    year = Integer.valueOf(date.substring(0, 4));
-                    month = Integer.valueOf(date.substring(5, 7));
-                    month = month - 1;
-                    dayOfMonth = Integer.valueOf(date.substring(8, 10));
-                }
-                */
-
-
             }
         });
 
@@ -90,15 +70,16 @@ public class ScheduleEditActivity extends AppCompatActivity {
             Schedule schedule = results.first();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             String date = sdf.format(schedule.getDate());
+
             mDateEdit.setText(date);
             mTitleEdit.setText(schedule.getTitle());
             mDetailEdit.setText(schedule.getDetail());
             mDayCount.setText(schedule.getDayCount());
             mDelete.setVisibility(View.VISIBLE);
+
         } else {
             mDelete.setVisibility(View.INVISIBLE);
         }
-
     }
 
     public void onSaveTapped(View view) {
@@ -157,13 +138,11 @@ public class ScheduleEditActivity extends AppCompatActivity {
             Toast.makeText(this, "追加しました", Toast.LENGTH_SHORT).show();
             finish();
         }
-
     }
 
     public void onDeleteTapped(View view) {
         final long scheduleId = getIntent().getLongExtra("schedule_id", -1);
         if (scheduleId != -1) {
-
             mRealm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
@@ -172,29 +151,15 @@ public class ScheduleEditActivity extends AppCompatActivity {
                     finish();
                 }
             });
-
         }
     }
-    /*
-    public void onChoice(View view){
-
-        DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
-        datePicker.show(getSupportFragmentManager(), "datePicker");
-    }
-    */
-
-
-
-
     public void setTextView(String value){
         TextView textView = (TextView) findViewById(R.id.dateEdit);
         textView.setText(value);
     }
-
     public void setCountView(int value){
         TextView textView = (TextView) findViewById(R.id.countingDay);
         String valueToString = String.valueOf(value);
         textView.setText(valueToString);
     }
-
 }
